@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
+### development
+This app was tested and developed on an iOS 6s phone using the Expo application. The app was also tested in an emulator for iOS and Android on a Mac OSX machine.
+
 ### `npm start`
 
 Runs the app in development mode.
