@@ -8,6 +8,7 @@ import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
 import {setDecks, getDecks} from './utils/api';
 import {darkGreen, white, yellow} from './utils/colors';
+import {setLocalNotification} from './utils/notify';
 
 const Tabs = TabNavigator({
   Decks: {
@@ -87,6 +88,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    setLocalNotification();
     const {decks} = this.state;
     if (Object.keys(decks).length === 0) {
       setDecks()

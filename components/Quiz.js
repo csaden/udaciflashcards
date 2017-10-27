@@ -7,6 +7,10 @@ import {
   StyleSheet
 } from 'react-native';
 import {darkGreen, green, yellow, grey, white} from '../utils/colors';
+import {
+  clearLocalNotification,
+  setLocalNotification
+} from '../utils/notify';
 
 export default class Quiz extends Component {
 
@@ -48,6 +52,8 @@ export default class Quiz extends Component {
     const {deck} = this.props.navigation.state.params;
     const {i} = this.state;
     if (i === deck.questions.length - 1) {
+      clearLocalNotification()
+      .then(setLocalNotification);
       this.setState({isDone: true});
       return;
     }
