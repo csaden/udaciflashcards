@@ -4,6 +4,8 @@ import {StackNavigator, TabNavigator} from 'react-navigation';
 import Decks from './components/Decks';
 import NewDeck from './components/NewDeck';
 import DeckView from './components/DeckView';
+import AddCard from './components/AddCard';
+import Quiz from './components/Quiz';
 import {setDecks, getDecks} from './utils/api';
 import {darkGreen, white, yellow} from './utils/colors';
 
@@ -49,18 +51,35 @@ const Tabs = TabNavigator({
   }
 })
 
-// const MainNav = StackNavigator({
-//   Home: {
-//     screen: Tabs
-//   },
-//   DeckView: {
-//     screen: DeckView,
-//     path: 'deck/:title',
-//     navigationOptions: ({navigation}) => ({
-//       title: navigation.state.params.title
-//     })
-//   }
-// })
+const MainNavigation = StackNavigator({
+  Home: {
+    screen: Tabs,
+    navigationOptions: {
+      header: null,
+      initialRouteName: 'Decks'
+    }
+  },
+  DeckView: {
+    screen: DeckView,
+    navigationOptions: {
+      headerBackTitle: 'Back'
+    }
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      title: 'Add New Card'
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Study Mode'
+    }
+  }
+}, {
+  headerMode: 'screen'
+})
 
 export default class App extends Component {
   state = {
@@ -68,13 +87,20 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    setDecks()
-    .then(getDecks)
+    const {decks} = this.state;
+    if (Object.keys(decks).length === 0) {
+      setDecks()
+      .then(this.refreshDecks)
+      .catch((error) => {
+        console.warn('Could not load decks', error);
+      });
+    }
+  }
+
+  refreshDecks = () => {
+    return getDecks()
     .then((decks) => {
-      this.setState(() => ({decks}))
-    })
-    .catch((error) => {
-      console.warn('Could not load decks', error);
+      this.setState(() => ({decks}));
     });
   }
 
@@ -83,8 +109,7 @@ export default class App extends Component {
 
     return (
       <View style={{flex: 1}}>
-        {/* <MainNav/>*/}
-        <Tabs screenProps={{decks}}/>
+        <MainNavigation screenProps={{decks, onRefresh: this.refreshDecks}}/>
       </View>
     )
   }
