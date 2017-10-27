@@ -12,7 +12,12 @@ export default class DeckView extends Component {
 
   static navigationOptions = {
     header: ({navigation}) => (
-      <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 10}}>
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginLeft: 10,
+        marginTop: 20}}>
         <Entypo name='chevron-thin-left' size={20} color={macBlue}/>
         <Button
           title='Decks'
